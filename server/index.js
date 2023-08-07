@@ -25,4 +25,4 @@ console.log(`Connected to port ${process.env.PORT}`);
 app.use(errorMiddleware);
 
 //Routes
-app.use("/api", authRoutes, errorMiddleware);
+app.use(authRoutes, errorMiddleware);
