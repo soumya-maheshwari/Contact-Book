@@ -88,14 +88,13 @@ const login = async (req, res, next) => {
 
 const signup = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
-
+    const { email, password } = req.body;
     const isUserExists = await User.findOne({ email: email.toLowerCase() });
 
     if (isUserExists) {
       return next(new ErrorHandler(400, "user by this email already exists"));
     }
-    if (!(email && password && name)) {
+    if (!(email && password)) {
       return next(new ErrorHandler(400, "All the input fields are required."));
     }
     if (!validatepassword(password)) {

@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 const { errorMiddleware } = require("./middlewares/ErrorHandler");
 app.use(express.json());
@@ -26,3 +27,4 @@ app.use(errorMiddleware);
 
 //Routes
 app.use(authRoutes, errorMiddleware);
+app.use(contactRoutes, errorMiddleware);
