@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./Redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import "react-toastify/dist/ReactToastify.css";
+import "./Components/style.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

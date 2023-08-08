@@ -1,0 +1,47 @@
+.contact-page {
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+}
+
+.dialog-class {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px;
+  width: 60vw;
+  background-color: black;
+  border: 3px solid white;
+}
+
+.form-class {
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.label-class {
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
+#input-class {
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font-size: 18px;
+  height: 40px;
+  width: 44vw;
+  border: 1px solid black;
+  margin-bottom: 16px;
+  margin-top: 10px;
+  padding: 5px 5px;
+}
+
+.add {
+  width: 10vw;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  margin-left: 7vw;
+  margin-top: 20px;
+}

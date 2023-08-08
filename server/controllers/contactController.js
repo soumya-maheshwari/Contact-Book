@@ -8,6 +8,9 @@ const createContact = async (req, res, next) => {
     const userid = user._id;
 
     const { name, email, phone } = req.body;
+    if (!(name && email && phone)) {
+      return next(new ErrorHandler(400, "All the input fields are required."));
+    }
     if (!validatemail(email)) {
       return next(new ErrorHandler(400, "incorrect email format is provided"));
     }
@@ -26,9 +29,6 @@ const createContact = async (req, res, next) => {
       return next(
         new ErrorHandler(400, "user by this phone number already exists")
       );
-    }
-    if (!(name && email && phone)) {
-      return next(new ErrorHandler(400, "All the input fields are required."));
     } else {
       const newContact = await Contact.create({
         name,
