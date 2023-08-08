@@ -34,6 +34,30 @@ export const addContactThunk = createAsyncThunk(
   }
 );
 
+export const getAllContactsThunk = createAsyncThunk(
+  "contacts/getAllContacts",
+  async () => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    // console.log(user.accessToken);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${user.accessToken}`,
+      },
+    };
+
+    return await Api.get(`/allContacts`, config)
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
+  }
+);
+
 export const editContactThunk = createAsyncThunk(
   "contacts/editContact",
   async (data) => {
@@ -60,7 +84,7 @@ export const editContactThunk = createAsyncThunk(
 
 export const deleteNoteThunk = createAsyncThunk(
   "contacts/deleteContact",
-  async (noteID) => {
+  async (contactID) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     // console.log(user.accessToken);
     const config = {
@@ -69,7 +93,7 @@ export const deleteNoteThunk = createAsyncThunk(
         Authorization: `Bearer ${user.accessToken}`,
       },
     };
-    return await Api.delete(`/deleteContact${noteID}`, noteID, config)
+    return await Api.delete(`/deleteContact${contactID}`, contactID, config)
       .then((res) => {
         console.log(res);
         return res;
@@ -103,6 +127,24 @@ export const contactSlice = createSlice({
         }
       })
       .addCase(addContactThunk.rejected, (state) => {
+        state.isLoading = true;
+        state.isError = true;
+      })
+      .addCase(getAllContactsThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllContactsThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        if (action.payload.data.success) {
+          state.isSuccess = true;
+          state.contacts = action.payload.data.contacts;
+        } else {
+          state.isSuccess = false;
+          state.isError = true;
+        }
+      })
+      .addCase(getAllContactsThunk.rejected, (state) => {
         state.isLoading = true;
         state.isError = true;
       })

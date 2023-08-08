@@ -112,8 +112,29 @@ const deleteContact = async (req, res, next) => {
   }
 };
 
+const getAllContacts = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const userid = user._id;
+
+    const contacts = await Contact.find({ user: userid });
+
+    console.log(contacts);
+
+    return res.status(200).json({
+      success: true,
+      contacts,
+      msg: "Fetched all contacts",
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = {
   createContact,
   editContact,
   deleteContact,
+  getAllContacts,
 };

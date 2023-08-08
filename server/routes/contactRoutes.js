@@ -10,5 +10,6 @@ router.delete(
   authVerifyToken,
   contactController.deleteContact
 );
+router.get("/allContacts", authVerifyToken, contactController.getAllContacts);
 
 module.exports = router;

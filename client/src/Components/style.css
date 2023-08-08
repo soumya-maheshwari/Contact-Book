@@ -1,14 +1,19 @@
 .contact-page {
   background-color: black;
+  /* width: 100vw;
+  height: 100vh; */
+  display: flex;
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* justify-content: center; */
   width: 100vw;
-  height: 100vh;
 }
 
 .dialog-class {
   display: flex;
   flex-direction: column;
   padding: 20px 20px;
-  width: 60vw;
+  width: 30vw;
   background-color: black;
   border: 3px solid white;
 }
@@ -30,7 +35,7 @@
   border-radius: 6px;
   font-size: 18px;
   height: 40px;
-  width: 44vw;
+  width: 24vw;
   border: 1px solid black;
   margin-bottom: 16px;
   margin-top: 10px;
@@ -38,10 +43,86 @@
 }
 
 .add {
-  width: 10vw;
+  width: 10px;
   height: 40px;
   color: white;
   cursor: pointer;
-  margin-left: 7vw;
+
+  text-align: center;
+  margin-left: 40%;
   margin-top: 20px;
+}
+
+.all-contacts {
+  margin-top: 200px;
+  /* margin: 100px; */
+}
+
+.contact-list {
+  margin-top: 80px;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  /* text-align: center; */
+}
+
+.contact-card {
+  border-radius: 10px;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  border-top: 10px solid gold;
+
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 10px;
+  margin-top: 17px;
+}
+
+.contact-content {
+  color: black;
+  font-size: 18px;
+}
+
+.contact-class {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  align-items: center;
+  margin: 0 auto;
+  justify-content: center;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+.btns {
+  display: flex;
+  margin-left: 59vw;
+  flex-direction: row;
+}
+
+.edit-btn,
+.del-btn {
+  width: 30px;
+  height: 30px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+.two-btns {
+  display: flex;
+  margin-top: 1.8vh;
 }

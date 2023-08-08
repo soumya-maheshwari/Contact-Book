@@ -4,7 +4,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import * as ReactBootstrap from "react-bootstrap";
-import { addContactThunk } from "../../Redux/contactSlice";
+import { addContactThunk, getAllContactsThunk } from "../../Redux/contactSlice";
+import ContactList from "./ContactList";
 
 const ContactPage = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,10 @@ const ContactPage = () => {
   const handleClose = (value) => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    setContacts(sm.contacts);
+  }, [sm]);
 
   const userData = {
     name,
@@ -87,6 +92,17 @@ const ContactPage = () => {
     setLoading(sm.isLoading);
   }, [sm]);
 
+  useEffect(() => {
+    dispatch(getAllContactsThunk())
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.reponse;
+      });
+  }, []);
   return (
     <>
       <div className="contact-page">
@@ -143,19 +159,19 @@ const ContactPage = () => {
               <button
                 className="btn btn-outline-light btn-lg px-5 add"
                 style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  display: "flex",
+                  // alignItems: "center",
+                  // justifyContent: "center",
+                  // display: "flex",
                   textAlign: "center",
-                  marginBottom: "3vh",
+                  // marginBottom: "3vh",
                   //   position: "absolute",
-                  transform: "translateX(-50%)",
-                  marginTop: "2vh",
+                  // transform: "translateX(-50%)",
+                  // marginTop: "2vh",
                 }}
               >
                 ADD
               </button>
-              {loading ? (
+              {/* {loading ? (
                 <div className="loading-overlay">
                   <ReactBootstrap.Spinner
                     animation="border"
@@ -163,12 +179,13 @@ const ContactPage = () => {
                     variant="success"
                   />
                 </div>
-              ) : null}
+              ) : null} */}
             </form>
           </div>
         </Dialog>
+        <ContactList contacts={contacts} />
+        <ToastContainer />
       </div>
-      <ToastContainer />
     </>
   );
 };
