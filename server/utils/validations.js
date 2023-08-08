@@ -11,7 +11,14 @@ function validatemail(email) {
   return result;
 }
 
+function validatePhone(phone) {
+  let regexPhone = /^[0-9]{10}$/;
+  result = regexPhone.test(phone);
+  return result;
+}
+
 module.exports = {
   validatepassword,
   validatemail,
+  validatePhone,
 };

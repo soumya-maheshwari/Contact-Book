@@ -4,4 +4,11 @@ const router = express.Router();
 const { authVerifyToken } = require("../middlewares/authVerifyToken");
 
 router.post("/createContact", authVerifyToken, contactController.createContact);
+router.put("/editContact/:id", authVerifyToken, contactController.editContact);
+router.delete(
+  "/deleteContact/:id",
+  authVerifyToken,
+  contactController.deleteContact
+);
+
 module.exports = router;

@@ -1,7 +1,6 @@
 const Contact = require("../models/contactModel");
 const { ErrorHandler } = require("../middlewares/ErrorHandler");
-const { validatemail } = require("../utils/validations");
-const User = require("../models/userModel");
+const { validatemail, validatePhone } = require("../utils/validations");
 
 const createContact = async (req, res, next) => {
   try {
@@ -12,7 +11,11 @@ const createContact = async (req, res, next) => {
     if (!validatemail(email)) {
       return next(new ErrorHandler(400, "incorrect email format is provided"));
     }
-
+    if (!validatePhone(phone)) {
+      return next(
+        new ErrorHandler(400, "incorrect Phone number format is provided")
+      );
+    }
     const isUserExists = await Contact.findOne({ email: email.toLowerCase() });
     if (isUserExists) {
       return next(new ErrorHandler(400, "user by this email already exists"));
@@ -48,6 +51,69 @@ const createContact = async (req, res, next) => {
   }
 };
 
+const editContact = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const userid = user._id;
+    console.log(userid);
+    const { name, email, phone } = req.body;
+    if (!validatemail(email)) {
+      return next(new ErrorHandler(400, "incorrect email format is provided"));
+    }
+    if (!validatePhone(phone)) {
+      return next(
+        new ErrorHandler(400, "incorrect Phone number format is provided")
+      );
+    }
+    const updatedContact = await Contact.findOneAndUpdate(
+      { _id: req.params.id, user: userid },
+      { name, email, phone },
+      { new: true }
+    );
+
+    console.log(updatedContact);
+
+    if (!updatedContact) {
+      new ErrorHandler(404, "Contact not found");
+    }
+
+    res.status(200).json({
+      success: true,
+      updatedContact,
+      msg: "Contact updated",
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const deleteContact = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const userid = user._id;
+    console.log(req.params.id);
+    const deletedContact = await Contact.findOneAndDelete({
+      _id: req.params.id,
+      user: userid,
+    });
+
+    if (!deletedContact) {
+      new ErrorHandler(404, "Contact not found");
+    }
+    res.status(200).json({
+      success: true,
+      deletedContact,
+      msg: "Contact deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = {
   createContact,
+  editContact,
+  deleteContact,
 };
