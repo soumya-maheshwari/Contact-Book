@@ -84,16 +84,17 @@ export const editContactThunk = createAsyncThunk(
 
 export const deleteNoteThunk = createAsyncThunk(
   "contacts/deleteContact",
-  async (contactID) => {
+  async (id) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     // console.log(user.accessToken);
+    console.log(id);
     const config = {
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${user.accessToken}`,
       },
     };
-    return await Api.delete(`/deleteContact${contactID}`, contactID, config)
+    return await Api.delete(`/deleteContact/${id}`, id, config)
       .then((res) => {
         console.log(res);
         return res;
@@ -108,7 +109,14 @@ export const deleteNoteThunk = createAsyncThunk(
 export const contactSlice = createSlice({
   name: "contact",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    deleteContact: (state, action) => {
+      console.log(action.payload);
+      state.contacts = state.contacts.filter((s) => {
+        // return s._id!=
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder
 
@@ -158,11 +166,6 @@ export const contactSlice = createSlice({
         if (action.payload.data.success) {
           state.isSuccess = true;
           // state.contacts = action.payload.data.allcontacts;
-
-          const note = state.contacts.findIndex(
-            (n) => n._id == action.payload.data.note._id
-          );
-          state.contacts[note] = action.payload.data.note;
         } else {
           state.isSuccess = false;
           state.isError = true;
@@ -181,9 +184,9 @@ export const contactSlice = createSlice({
         console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
-          state.contacts = state.contacts.filter((s) => {
-            return s._id != action.payload.data.noteId;
-          });
+          // state.contacts = state.contacts.filter((s) => {
+          //   return s._id != action.payload.data.noteId;
+          // });
         } else {
           state.isSuccess = false;
           state.isError = true;

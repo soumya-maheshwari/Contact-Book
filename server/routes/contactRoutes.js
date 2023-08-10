@@ -11,5 +11,10 @@ router.delete(
   contactController.deleteContact
 );
 router.get("/allContacts", authVerifyToken, contactController.getAllContacts);
+router.put(
+  "/addMoreDetsild/:id",
+  authVerifyToken,
+  contactController.addMoreDetails
+);
 
 module.exports = router;

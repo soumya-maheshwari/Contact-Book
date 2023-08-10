@@ -19,6 +19,21 @@ const contactSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
+    linkedin: {
+      type: String,
+    },
+    instagram: {
+      type: String,
+    },
+    facebook: {
+      type: String,
+    },
+    twitter: {
+      type: String,
+    },
+    github: {
+      type: String,
+    },
   },
 
   { timestamps: true }

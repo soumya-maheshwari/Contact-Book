@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -6,17 +6,25 @@ import { toast } from "react-toastify";
 import * as ReactBootstrap from "react-bootstrap";
 import edit from "../../Assets/edit.svg";
 import del from "../../Assets/bin.svg";
+import plus from "../../Assets/plus.svg";
+import { deleteNoteThunk } from "../../Redux/contactSlice";
 
 const ContactCard = ({ contactID, id, name, email, phone }) => {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
+  const [deleteID, setDeleteID] = useState("");
+
   const handleClose = () => {
     setOpen(false);
   };
   const handleClose2 = () => {
     setOpen2(false);
   };
-
+  const handleClose3 = () => {
+    setOpen3(false);
+  };
   const handleEdit = () => {};
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,15 +32,24 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
   };
 
   const handleClickOpen2 = () => {
-    // console.log(deleteID);
+    setDeleteID(id);
+    console.log(id);
     setOpen2(true);
+  };
+
+  const handleClickOpen3 = () => {
+    setOpen3(true);
   };
   const handleCancelDelete = (e) => {
     e.preventDefault();
 
     setOpen2(false);
   };
-  const handleDelete = () => {};
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    dispatch(deleteNoteThunk(id));
+  };
   return (
     <>
       <div className="container mt-3">
@@ -45,8 +62,97 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
               <div className="dialog-class">
                 <DialogTitle fontSize={"20px"} color={"white"}>
                   {" "}
+                  <button
+                    style={{
+                      outline: "none",
+                      background: "none",
+                    }}
+                    onClick={handleClickOpen3}
+                  >
+                    <span
+                      className="span-class"
+                      style={{
+                        paddingRight: "19px",
+                        fontSize: "20px",
+                        cursor: "pointer",
+                        color: "white",
+                      }}
+                    >
+                      +
+                    </span>
+                  </button>
+                  <Dialog open={open3} onClose={handleClose3}>
+                    <div className="dialog-class">
+                      <DialogTitle fontSize={"20px"} color={"white"}>
+                        {" "}
+                        ADD MORE DETAILS
+                      </DialogTitle>
+
+                      <form
+                        className="form-class"
+                        //  onSubmit={handleSubmit}
+                      >
+                        <label className="label-class">LinkedIn</label>
+                        <input
+                          type="text"
+                          id="input-class"
+                          placeholder="Enter LinkedIn URL"
+                        />
+                        <label className="label-class">GitHub</label>
+                        <input
+                          type="text"
+                          id="input-class"
+                          placeholder="Enter GitHub Profile"
+                        />{" "}
+                        <label className="label-class">Instagram</label>
+                        <input
+                          type="text"
+                          id="input-class"
+                          placeholder="Enter Instagram ID"
+                        />
+                        <label className="label-class">Twitter</label>
+                        <input
+                          type="text"
+                          id="input-class"
+                          placeholder="Enter Twitter UserName"
+                        />
+                        <label className="label-class">FaceBook</label>
+                        <input
+                          type="text"
+                          id="input-class"
+                          placeholder="Enter FaceBook ID"
+                        />
+                        <button
+                          className="btn btn-outline-light btn-lg px-5 add"
+                          style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                            display: "flex",
+                            textAlign: "center",
+                            marginBottom: "3vh",
+                            // position: "absolute",
+                            // transform: "translateX(-50%)",
+                            // marginTop: "2vh",
+                            width: "60px",
+                          }}
+                        >
+                          EDIT
+                        </button>
+                        {/* {loading ? (
+                <div className="loading-overlay">
+                  <ReactBootstrap.Spinner
+                    animation="border"
+                    className="spinner"
+                    variant="success"
+                  />
+                </div>
+              ) : null} */}
+                      </form>
+                    </div>
+                  </Dialog>
                   EDIT CONTACT
                 </DialogTitle>
+
                 <form
                   className="form-class"
                   //  onSubmit={handleSubmit}

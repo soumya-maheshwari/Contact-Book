@@ -47,12 +47,13 @@ export const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.response = action.payload.data.msg;
-        // console.log(action.payload);
+        // state.response = action.payload.data.msg;
+        console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
           state.profile = action.payload.data;
 
+          state.response = action.payload.data.msg;
           state.user = action.payload.data.user;
         } else {
           state.isSuccess = false;
@@ -70,11 +71,12 @@ export const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.response = action.payload.data.msg;
 
         console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
+          state.response = action.payload.data.msg;
+
           state.user = action.payload.data.user;
           state.profile = action.payload.data;
         } else {

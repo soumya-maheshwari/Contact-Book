@@ -8,9 +8,9 @@ const ContactList = ({ contacts }) => {
         <div className="contact-class">
           {contacts &&
             contacts.map((contact) => {
-              {
-                console.log(contact);
-              }
+              // {
+              //   console.log(contact);
+              // }
 
               return (
                 <ContactCard

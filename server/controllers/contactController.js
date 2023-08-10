@@ -132,9 +132,51 @@ const getAllContacts = async (req, res, next) => {
   }
 };
 
+const addMoreDetails = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const userid = user._id;
+    console.log(userid);
+    const contactId = req.params.id;
+
+    const { linkedin, instagram, github, twitter, facebook } = req.body;
+
+    const updateData = {
+      linkedin: linkedin,
+      instagram: instagram,
+      facebook: facebook,
+      twitter: twitter,
+      github: github,
+    };
+
+    console.log(updateData);
+
+    const updatedContact = await Contact.findByIdAndUpdate(
+      contactId,
+      updateData,
+      { new: true }
+    );
+
+    console.log(updatedContact);
+
+    if (!updatedContact) {
+      new ErrorHandler(404, "Contact not found");
+    }
+    return res.json({
+      success: true,
+      updatedContact,
+      msg: "updated the contact data",
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = {
   createContact,
   editContact,
   deleteContact,
   getAllContacts,
+  addMoreDetails,
 };

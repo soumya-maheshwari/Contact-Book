@@ -126,3 +126,10 @@
   display: flex;
   margin-top: 1.8vh;
 }
+.plus {
+  background-color: white;
+  width: 20px;
+}
+.span-class {
+  padding: 9px;
+}
