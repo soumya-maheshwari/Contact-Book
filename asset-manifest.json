@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/Contact-Book/static/css/main.ee0e06ab.css",
+    "main.js": "/Contact-Book/static/js/main.1924eb08.js",
+    "static/js/787.c1112931.chunk.js": "/Contact-Book/static/js/787.c1112931.chunk.js",
+    "static/media/edit.svg": "/Contact-Book/static/media/edit.eb7bc5aaeacf365ab9b099dc872f227e.svg",
+    "index.html": "/Contact-Book/index.html",
+    "static/media/bin.svg": "/Contact-Book/static/media/bin.b365bd196f686736fd70c8a37dbbf00c.svg",
+    "static/media/plus.svg": "/Contact-Book/static/media/plus.c4ad914c4a4c568589ae272f9f4b07bf.svg",
+    "main.ee0e06ab.css.map": "/Contact-Book/static/css/main.ee0e06ab.css.map",
+    "main.1924eb08.js.map": "/Contact-Book/static/js/main.1924eb08.js.map",
+    "787.c1112931.chunk.js.map": "/Contact-Book/static/js/787.c1112931.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ee0e06ab.css",
+    "static/js/main.1924eb08.js"
+  ]
+}
