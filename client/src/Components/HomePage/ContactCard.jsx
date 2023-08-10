@@ -16,6 +16,12 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
   const [open3, setOpen3] = React.useState(false);
   const [deleteID, setDeleteID] = useState("");
 
+  const [Instagram, setInstagram] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [github, setGithub] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [FaceBook, setFacebook] = useState("");
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -97,30 +103,40 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
                           type="text"
                           id="input-class"
                           placeholder="Enter LinkedIn URL"
+                          value={linkedin}
+                          onChange={(e) => setLinkedin(e.target.value)}
                         />
                         <label className="label-class">GitHub</label>
                         <input
                           type="text"
                           id="input-class"
                           placeholder="Enter GitHub Profile"
+                          value={github}
+                          onChange={(e) => setGithub(e.target.value)}
                         />{" "}
                         <label className="label-class">Instagram</label>
                         <input
                           type="text"
                           id="input-class"
                           placeholder="Enter Instagram ID"
+                          value={Instagram}
+                          onChange={(e) => setInstagram(e.target.value)}
                         />
                         <label className="label-class">Twitter</label>
                         <input
                           type="text"
                           id="input-class"
                           placeholder="Enter Twitter UserName"
+                          value={twitter}
+                          onChange={(e) => setTwitter(e.target.value)}
                         />
                         <label className="label-class">FaceBook</label>
                         <input
                           type="text"
                           id="input-class"
                           placeholder="Enter FaceBook ID"
+                          value={FaceBook}
+                          onChange={(e) => setFacebook(e.target.value)}
                         />
                         <button
                           className="btn btn-outline-light btn-lg px-5 add"

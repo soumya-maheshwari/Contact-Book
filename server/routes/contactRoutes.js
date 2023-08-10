@@ -1,5 +1,5 @@
 const express = require("express");
-const { contactController } = require("../controllers");
+const { contactController, authController } = require("../controllers");
 const router = express.Router();
 const { authVerifyToken } = require("../middlewares/authVerifyToken");
 
@@ -16,5 +16,6 @@ router.put(
   authVerifyToken,
   contactController.addMoreDetails
 );
+router.get("/searchContact", authVerifyToken, contactController.searchContact);
 
 module.exports = router;

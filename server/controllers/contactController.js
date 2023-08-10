@@ -142,6 +142,9 @@ const addMoreDetails = async (req, res, next) => {
     const { linkedin, instagram, github, twitter, facebook } = req.body;
 
     const updateData = {
+      // name,
+      // email,
+      // phone,
       linkedin: linkedin,
       instagram: instagram,
       facebook: facebook,
@@ -162,10 +165,34 @@ const addMoreDetails = async (req, res, next) => {
     if (!updatedContact) {
       new ErrorHandler(404, "Contact not found");
     }
-    return res.json({
+    return res.status(200).json({
       success: true,
       updatedContact,
       msg: "updated the contact data",
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const searchContact = async (req, res, next) => {
+  try {
+    const { search } = req.query;
+
+    const searchResults = await Contact.find({
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } },
+        { email: { $regex: searchTerm, $options: "i" } },
+        { phone: { $regex: searchTerm, $options: "i" } },
+      ],
+    });
+    console.log(searchResults);
+
+    return res.status(200).json({
+      success: true,
+      searchResults,
+      msg: "search successful",
     });
   } catch (error) {
     console.log(error);
@@ -179,4 +206,5 @@ module.exports = {
   deleteContact,
   getAllContacts,
   addMoreDetails,
+  searchContact,
 };
