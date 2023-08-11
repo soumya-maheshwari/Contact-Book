@@ -46,7 +46,7 @@ const ContactPage = () => {
     if (!(name && email && phone)) {
       toast.error(`Please enter all the fields`, {
         position: "top-right",
-        // theme: "DARK",
+        theme: "DARK",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -72,6 +72,16 @@ const ContactPage = () => {
         setName("");
         setEmail("");
         setPhone("");
+      } else {
+        toast.error(`${res.payload.data.msg}`, {
+          position: "top-right",
+          // theme: "DARK",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
       // setOpen(false);
 
@@ -81,9 +91,9 @@ const ContactPage = () => {
         phone: phone,
         _id: 1,
       };
-
-      setContacts([currentContact, ...contacts]);
-
+      if (!currentContact) {
+        setContacts([currentContact, ...contacts]);
+      }
       return res;
     });
   };
@@ -115,7 +125,7 @@ const ContactPage = () => {
             justifyContent: "center",
             display: "flex",
             textAlign: "center",
-            marginBottom: "3vh",
+            marginBottom: "7vh",
             position: "absolute",
             left: "50%",
             transform: "translateX(-50%)",
@@ -125,6 +135,25 @@ const ContactPage = () => {
           Create Contact
         </button>
 
+        {/* <input
+          type="text"
+          // className="search-bar"
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            marginTop: "8vh",
+            width: "60vw",
+            height: "50px",
+            fontFamily: "sans-serif",
+            marginBottom: "900px",
+            flexDirection: "column",
+          }}
+          placeholder="Search contacts..."
+        /> */}
         <Dialog open={open} onClose={handleClose}>
           <div className="dialog-class">
             <DialogTitle fontSize={"20px"} color={"white"}>
@@ -168,6 +197,7 @@ const ContactPage = () => {
                   // transform: "translateX(-50%)",
                   // marginTop: "2vh",
                 }}
+                type="submit"
               >
                 ADD
               </button>

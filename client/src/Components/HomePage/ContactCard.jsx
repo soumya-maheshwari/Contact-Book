@@ -6,21 +6,32 @@ import { toast } from "react-toastify";
 import * as ReactBootstrap from "react-bootstrap";
 import edit from "../../Assets/edit.svg";
 import del from "../../Assets/bin.svg";
-import plus from "../../Assets/plus.svg";
-import { deleteNoteThunk } from "../../Redux/contactSlice";
+import {
+  deleteNoteThunk,
+  editContact,
+  editContactThunk,
+} from "../../Redux/contactSlice";
+import linkedinImg from "../../Assets/linkedin.svg";
+import twitterImg from "../../Assets/twitter.svg";
+import instaImg from "../../Assets/instagram.svg";
+import githubImg from "../../Assets/github.svg";
+import fbImg from "../../Assets/facebook.svg";
 
-const ContactCard = ({ contactID, id, name, email, phone }) => {
+const ContactCard = (props) => {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
   const [open3, setOpen3] = React.useState(false);
   const [deleteID, setDeleteID] = useState("");
-
+  const [editID, setEditID] = useState("");
   const [Instagram, setInstagram] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [github, setGithub] = useState("");
   const [twitter, setTwitter] = useState("");
   const [FaceBook, setFacebook] = useState("");
+  const [name, setName] = useState(props.name);
+  const [email, setEmail] = useState(props.email);
+  const [phone, setPhone] = useState(props.phone);
 
   const handleClose = () => {
     setOpen(false);
@@ -31,15 +42,28 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
   const handleClose3 = () => {
     setOpen3(false);
   };
-  const handleEdit = () => {};
+  const handleEdit = (e) => {
+    e.preventDefault();
+    console.log(props.id, "id-1");
+    dispatch(editContactThunk(props.id))
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.reponse;
+      });
+  };
   const handleClickOpen = () => {
     setOpen(true);
-    // console.log(editID);
+    setEditID(props.id);
+    console.log(editID);
   };
 
   const handleClickOpen2 = () => {
-    setDeleteID(id);
-    console.log(id);
+    // setDeleteID(props._id);
+    // console.log(id);
     setOpen2(true);
   };
 
@@ -54,7 +78,17 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
   const handleDelete = (e) => {
     e.preventDefault();
 
-    dispatch(deleteNoteThunk(id));
+    dispatch(deleteNoteThunk())
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.reponse;
+      });
+
+    dispatch(editContact());
   };
   return (
     <>
@@ -73,6 +107,7 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
                       outline: "none",
                       background: "none",
                     }}
+                    type="submit"
                     onClick={handleClickOpen3}
                   >
                     <span
@@ -146,9 +181,6 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
                             display: "flex",
                             textAlign: "center",
                             marginBottom: "3vh",
-                            // position: "absolute",
-                            // transform: "translateX(-50%)",
-                            // marginTop: "2vh",
                             width: "60px",
                           }}
                         >
@@ -169,33 +201,30 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
                   EDIT CONTACT
                 </DialogTitle>
 
-                <form
-                  className="form-class"
-                  //  onSubmit={handleSubmit}
-                >
+                <form className="form-class" onSubmit={handleEdit}>
                   <label className="label-class">Name</label>
                   <input
                     type="text"
                     id="input-class"
-                    placeholder="Enter name"
-                    // value={name}
-                    // onChange={(e) => setName(e.target.value)}
+                    placeholder="Edit name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                   <label className="label-class">Email</label>
                   <input
                     type="text"
                     id="input-class"
-                    placeholder="Enter email"
-                    // value={email}
-                    // onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Edit email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />{" "}
                   <label className="label-class">Phone No.</label>
                   <input
                     type="text"
                     id="input-class"
-                    placeholder="Enter Phone Number"
-                    // value={phone}
-                    // onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Edit Phone Number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                   />
                   <button
                     className="btn btn-outline-light btn-lg px-5 add"
@@ -235,10 +264,7 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
                   {" "}
                   DELETE CONTACT
                 </DialogTitle>
-                <form
-                  className="form-class"
-                  //  onSubmit={handleSubmit}
-                >
+                <form className="form-class" onSubmit={handleDelete}>
                   <label className="label-class">
                     {" "}
                     Are you sure you want to delete this contact?
@@ -272,10 +298,6 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
                         display: "flex",
                         textAlign: "center",
                         marginBottom: "3vh",
-                        // position: "absolute",
-                        // transform: "translateX(-50%)",
-                        // marginTop: "2vh",
-
                         width: "60px",
                         marginLeft: "1vw",
                       }}
@@ -298,19 +320,31 @@ const ContactCard = ({ contactID, id, name, email, phone }) => {
             </Dialog>
           </div>
           <div className="card-body">
-            <h5 className="card-title">
-              Contact Information
-              {/* <div className="btns">
-                <button className="edit-btn">
-                  <img src={edit} alt="edit" />
-                  <img src={del} alt="" className="del-btn" />
-                </button>
-              </div> */}
-            </h5>
+            <h5 className="card-title">Contact Information</h5>
             <hr />
-            <p className="card-text">Name: {name} </p>
-            <p className="card-text">Email:{email} </p>
-            <p className="card-text">Phone: {phone}</p>
+            <p className="card-text">Name: {props.name} </p>
+            <p className="card-text">Email:{props.email} </p>
+            <p className="card-text">Phone: {props.phone}</p>
+            <p className="card-text">
+              <img src={linkedinImg} alt="" className="icon-class" />
+              {/* {linkedin} */}
+            </p>
+            <p className="card-text">
+              <img src={instaImg} alt="" className="icon-class" />
+              {/* {instagram} */}
+            </p>
+            <p className="card-text">
+              <img src={twitterImg} alt="" className="icon-class" />
+              {/* {twitter} */}
+            </p>
+            <p className="card-text">
+              <img src={githubImg} alt="" className="icon-class" />
+              {/* {github} */}
+            </p>
+            <p className="card-text">
+              <img src={fbImg} alt="" className="icon-class" />
+              {/* {fb} */}
+            </p>
           </div>
         </div>
       </div>

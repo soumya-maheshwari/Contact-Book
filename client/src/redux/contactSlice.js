@@ -14,7 +14,7 @@ export const addContactThunk = createAsyncThunk(
   "/contact/createContact",
   async (data) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    // console.log(user.accessToken);
+    console.log(user.accessToken);
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -22,7 +22,7 @@ export const addContactThunk = createAsyncThunk(
       },
     };
 
-    return await Api.post(`/createContact`, data, config)
+    return await Api.post(`createContact`, data, config)
       .then((res) => {
         console.log(res);
         return res;
@@ -46,7 +46,7 @@ export const getAllContactsThunk = createAsyncThunk(
       },
     };
 
-    return await Api.get(`/allContacts`, config)
+    return await Api.get(`allContacts`, config)
       .then((res) => {
         console.log(res);
         return res;
@@ -60,17 +60,17 @@ export const getAllContactsThunk = createAsyncThunk(
 
 export const editContactThunk = createAsyncThunk(
   "contacts/editContact",
-  async (data) => {
+  async (id) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    // console.log(user.accessToken);
+    console.log(user.accessToken);
+    console.log(id, "id");
     const config = {
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${user.accessToken}`,
       },
     };
-
-    return await Api.put(`/editContact`, data, config)
+    return await Api.patch(`editContact/${id}`, id, config)
       .then((res) => {
         console.log(res);
         return res;
@@ -86,7 +86,7 @@ export const deleteNoteThunk = createAsyncThunk(
   "contacts/deleteContact",
   async (id) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    // console.log(user.accessToken);
+    console.log(user.accessToken);
     console.log(id);
     const config = {
       headers: {
@@ -112,9 +112,13 @@ export const contactSlice = createSlice({
   reducers: {
     deleteContact: (state, action) => {
       console.log(action.payload);
-      state.contacts = state.contacts.filter((s) => {
-        // return s._id!=
-      });
+      // state.contacts = state.contacts.filter((s) => {
+      // return s._id!=
+      // });
+    },
+
+    editContact: (state, action) => {
+      console.log(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -163,13 +167,13 @@ export const contactSlice = createSlice({
       .addCase(editContactThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         console.log(action.payload);
-        if (action.payload.data.success) {
-          state.isSuccess = true;
-          // state.contacts = action.payload.data.allcontacts;
-        } else {
-          state.isSuccess = false;
-          state.isError = true;
-        }
+        // if (action.payload.data.success) {
+        //   state.isSuccess = true;
+        //   // state.contacts = action.payload.data.allcontacts;
+        // } else {
+        //   state.isSuccess = false;
+        //   state.isError = true;
+        // }
       })
       .addCase(editContactThunk.rejected, (state) => {
         state.isLoading = true;
@@ -200,3 +204,4 @@ export const contactSlice = createSlice({
 });
 
 export default contactSlice.reducer;
+export const { deleteContact, editContact } = contactSlice.actions;

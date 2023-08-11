@@ -3,10 +3,11 @@
   /* width: 100vw;
   height: 100vh; */
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   /* align-items: center; */
   /* justify-content: center; */
   width: 100vw;
+  margin-bottom: "100px";
 }
 
 .dialog-class {
@@ -132,4 +133,22 @@
 }
 .span-class {
   padding: 9px;
+}
+
+.icon-class {
+  width: 19px;
+}
+
+.search-bar {
+  margin-top: 90px;
+  margin-bottom: -30px;
+  width: 60vw;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* margin: auto; */
+  height: 6vh;
+  display: flex;
+  top: 10%;
+  margin-left: 50%;
 }

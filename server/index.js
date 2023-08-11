@@ -8,7 +8,13 @@ const contactRoutes = require("./routes/contactRoutes");
 
 const { errorMiddleware } = require("./middlewares/ErrorHandler");
 app.use(express.json());
-app.use(cors({ origin: true }));
+// app.use(cors({ origin: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Replace with your frontend's URL
+    credentials: true, // If you need to include cookies or authentication headers
+  })
+);
 app.use(express.urlencoded({ extended: false }));
 const server = app.listen(process.env.PORT);
 const connectDB = async () => {

@@ -6,7 +6,7 @@ const createContact = async (req, res, next) => {
   try {
     const user = req.user;
     const userid = user._id;
-
+    console.log(userid);
     const { name, email, phone } = req.body;
     if (!(name && email && phone)) {
       return next(new ErrorHandler(400, "All the input fields are required."));
@@ -19,12 +19,18 @@ const createContact = async (req, res, next) => {
         new ErrorHandler(400, "incorrect Phone number format is provided")
       );
     }
-    const isUserExists = await Contact.findOne({ email: email.toLowerCase() });
+    const isUserExists = await Contact.findOne({
+      email: email.toLowerCase(),
+      user: userid,
+    });
     if (isUserExists) {
       return next(new ErrorHandler(400, "user by this email already exists"));
     }
 
-    const isPhoneExists = await Contact.findOne({ phone });
+    const isPhoneExists = await Contact.findOne({
+      phone,
+      user: userid,
+    });
     if (isPhoneExists) {
       return next(
         new ErrorHandler(400, "user by this phone number already exists")
@@ -55,26 +61,46 @@ const editContact = async (req, res, next) => {
   try {
     const user = req.user;
     const userid = user._id;
+    const contactid = req.params.id;
     console.log(userid);
+
     const { name, email, phone } = req.body;
-    if (!validatemail(email)) {
+
+    if (email && !validatemail(email)) {
       return next(new ErrorHandler(400, "incorrect email format is provided"));
     }
-    if (!validatePhone(phone)) {
+    if (phone && !validatePhone(phone)) {
       return next(
         new ErrorHandler(400, "incorrect Phone number format is provided")
       );
     }
+
+    if (!contactid) {
+      return next(new ErrorHandler(400, "No contact found"));
+    }
     const updatedContact = await Contact.findOneAndUpdate(
-      { _id: req.params.id, user: userid },
-      { name, email, phone },
-      { new: true }
+      {
+        _id: contactid,
+        // user: userid,
+      },
+
+      // req.body,
+      {
+        $set: {
+          name,
+          email,
+          phone,
+        },
+      },
+      {
+        new: true,
+      }
     );
 
     console.log(updatedContact);
 
     if (!updatedContact) {
-      new ErrorHandler(404, "Contact not found");
+      return next(new ErrorHandler(404, "Contact not found"));
     }
 
     res.status(200).json({
@@ -100,7 +126,9 @@ const deleteContact = async (req, res, next) => {
 
     if (!deletedContact) {
       new ErrorHandler(404, "Contact not found");
+      return next();
     }
+    console.log(deleteContact);
     res.status(200).json({
       success: true,
       deletedContact,
@@ -163,7 +191,7 @@ const addMoreDetails = async (req, res, next) => {
     console.log(updatedContact);
 
     if (!updatedContact) {
-      new ErrorHandler(404, "Contact not found");
+      return next(new ErrorHandler(404, "Contact not found"));
     }
     return res.status(200).json({
       success: true,
@@ -182,9 +210,9 @@ const searchContact = async (req, res, next) => {
 
     const searchResults = await Contact.find({
       $or: [
-        { name: { $regex: searchTerm, $options: "i" } },
-        { email: { $regex: searchTerm, $options: "i" } },
-        { phone: { $regex: searchTerm, $options: "i" } },
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+        { phone: { $regex: search, $options: "i" } },
       ],
     });
     console.log(searchResults);
@@ -192,7 +220,7 @@ const searchContact = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       searchResults,
-      msg: "search successful",
+      msg: "search successfull",
     });
   } catch (error) {
     console.log(error);

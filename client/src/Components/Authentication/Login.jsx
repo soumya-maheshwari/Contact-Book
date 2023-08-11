@@ -44,9 +44,9 @@ const Login = () => {
         draggable: true,
       });
 
-      // setTimeout(() => {
-      // navigate("");
-      // }, 3000);
+      setTimeout(() => {
+        navigate("/contactPage");
+      }, 3000);
 
       localStorage.setItem("userInfo", JSON.stringify(sm.profile));
     } else {
